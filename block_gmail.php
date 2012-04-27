@@ -157,10 +157,11 @@ class block_gmail extends block_list {
             // Obtain link option
             $newwinlnk = get_config('blocks/gmail','newwinlink');
 
-            $composelink = '<a '.(($newwinlnk)?'target="_new"':'').' href="'.'http://mail.google.com/a/'.$this->domain.'/?AuthEventSource=SSO#compose">'.$composestr.'</a>';
-            $inboxlink = '<a '.(($newwinlnk)?'target="_new"':'').' href="'.'http://mail.google.com/a/'.$this->domain.'">'.$inboxstr.'</a>';
+            $composelink = '<a '.(($newwinlnk)?'target="_blank"':'').' href="'.'http://mail.google.com/a/'.$this->domain.'/?AuthEventSource=SSO#compose">'.$composestr.'</a>';
+            $inboxlink = '<a '.(($newwinlnk)?'target="_blank"':'').' href="'.'http://mail.google.com/a/'.$this->domain.'">'.$inboxstr.'</a>';
 
-            $this->content->items[] = '<img src="'.$OUTPUT->pix_url('gmail', 'block_gmail').'" alt="message" />&nbsp;' . $inboxlink.' '.$composelink.' '.$unreadmsgsstr.'<br/>';
+            $this->content->items[] = '<div style="font-weight: bold;"><img style="vertical-align: top; margin-right: 6px;" src="'.
+                $OUTPUT->pix_url('gmail', 'block_gmail').'" alt="message" />' . $inboxlink.' | '.$composelink.' '.$unreadmsgsstr.'</div>';
 
             // Only show as many messages as specified in config
             $countmsg = true;
@@ -208,13 +209,13 @@ class block_gmail extends block_list {
 
                     // I should do clean_param($summary, PARAM_TEXT) But then ' will have \'
                     if ($newwinlnk) {
-                        $text  = '<a target="_new" title="'.format_string($summary);
-                        $text .= '" href="'.$servicelink.'">'.format_string($msg->get_title()).'</a> '.$author_first.' '.$author_last;
+                        $text  = '<div style="margin-top: 6px;"><a target="_blank" title="'.format_string($summary);
+                        $text .= '" href="'.$servicelink.'">'.format_string($msg->get_title()).'</a> - '.$author_first.' '.$author_last.'</div>';
 
                         $this->content->items[] = $text;
                     } else {
-                        $text  = '<a title="'.format_string($summary);
-                        $text .= '" href="'.$servicelink.'">'.format_string($msg->get_title()).'</a> '.$author_first.' '.$author_last;
+                        $text  = '<div style="margin-top: 6px;"><a title="'.format_string($summary);
+                        $text .= '" href="'.$servicelink.'">'.format_string($msg->get_title()).'</a> - '.$author_first.' '.$author_last.'</div>';
                         $this->content->items[]  = $text;
                     }
                 }
